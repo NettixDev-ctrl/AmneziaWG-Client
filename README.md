@@ -52,7 +52,7 @@
 |---|---|---|
 | Туннель AmneziaWG 3.x, рукопожатие, трафик | ✅ проверено сквозным тестом (изолированные сетевые пространства имён) и на реальном сервере | ⚠️ собрано, **не проверялось** на Windows |
 | Kill switch, отказ при аварии туннеля, чистое отключение | ✅ сквозной тест | ⚠️ не проверялось |
-| Раздельное туннелирование | ⚠️ частично: правила и логика проверены, но на живом трафике работает только для сокетов, **созданных после** переноса процесса в cgroup | ⚠️ не проверялось (WinDivert) |
+| Раздельное туннелирование | ✅ работает (проверено на реальной системе); учтите: переключаются соединения, **открытые после** переноса процесса в cgroup | ⚠️ не проверялось (WinDivert) |
 | Установщик / AppImage | ✅ AppImage собирается и запускается | ⚠️ NSIS и portable собираются, не проверялись |
 
 ## Установка (Linux)
@@ -105,7 +105,8 @@ awg-helper (root / SYSTEM): проверка запроса и конфигур�
 - **Linux:** выбранные приложения (и их потомки) переносятся в cgroup v2; правила nftables помечают их пакеты, политика маршрутизации
   направляет их через физический интерфейс (masquerade). Режимы: «в обход VPN» и «только выбранные через VPN».
   **Ограничение ядра:** сокет привязывается к cgroup при создании, поэтому уже открытые соединения процесса не переключаются —
-  работают соединения, открытые после переноса. Сквозной тест этого режима на живом трафике пока **не проходит полностью**.
+  работают соединения, открытые после переноса. Работоспособность подтверждена на реальной системе; автоматический сквозной тест
+  в изолированных пространствах имён этот режим пока проверяет не полностью.
 - **Windows:** перехват пакетов WinDivert (только IPv4 TCP/UDP), не проверено на живой системе.
 
 ## Благодарности и происхождение дизайна
@@ -155,7 +156,7 @@ See the [screenshots above](#скриншоты) (Connected, Connection error, S
 |---|---|---|
 | AmneziaWG 3.x tunnel, handshake, traffic | ✅ verified by an end-to-end test (isolated network namespaces) and on a real server | ⚠️ builds, **not tested** on Windows |
 | Kill switch, fail-closed on tunnel crash, clean disconnect | ✅ end-to-end test | ⚠️ not tested |
-| Split tunneling | ⚠️ partial: rules/logic tested, but on live traffic only sockets **created after** the process is moved into the cgroup are redirected | ⚠️ not tested (WinDivert) |
+| Split tunneling | ✅ works (verified on a real system); note: connections **opened after** the process is moved into the cgroup are redirected | ⚠️ not tested (WinDivert) |
 | Installer / AppImage | ✅ AppImage builds and starts | ⚠️ NSIS and portable build, untested |
 
 ## Install (Linux)
@@ -200,8 +201,8 @@ UI preview in a browser (mock data): `npm run ui:preview`; regenerate screenshot
 
 - **Linux**: selected apps (and their children) are moved into a cgroup v2; nftables marks their packets and policy routing sends them
   out of the physical interface (masquerade). Modes: "bypass VPN" and "only selected through VPN". **Kernel limitation:** a socket is
-  bound to its cgroup at creation time, so already-open connections of a process are not switched. The live-traffic end-to-end test
-  for this mode does **not fully pass yet**.
+  bound to its cgroup at creation time, so already-open connections of a process are not switched. Verified working on a real
+  system; the automated end-to-end test in isolated network namespaces does not fully cover this mode yet.
 - **Windows**: WinDivert packet interception (IPv4 TCP/UDP only), untested on a live system.
 
 ## Credits and design origin
