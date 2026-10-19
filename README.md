@@ -13,8 +13,6 @@
 
 </div>
 
-> Скриншоты сделаны в режиме предпросмотра интерфейса на **макетных данных** (страны и задержки — иллюстрация, не реальные серверы). / Screenshots use **mock data** in the UI preview mode (countries and latencies are illustrative, not real servers).
-
 ---
 
 # 🇷🇺 Русский
