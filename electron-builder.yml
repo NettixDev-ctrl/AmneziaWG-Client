@@ -1,0 +1,66 @@
+appId: com.amneziawg.client
+productName: AmneziaWG Client
+copyright: Copyright © 2026 Privata AWG Client contributors
+directories:
+  output: dist
+  buildResources: build
+files:
+  - out/**
+  - package.json
+asar: true
+extraResources:
+  # Привилегированная служба и нативные зависимости (проверяются по SHA-256 в scripts/fetch-native.mjs)
+  - from: helper/bin/awg-helper.exe
+    to: helper/awg-helper.exe
+  - from: resources/native/
+    to: helper/
+    filter:
+      - wintun.dll
+      - WinDivert.dll
+      - WinDivert64.sys
+      - LICENSE-*.txt
+  # Linux: служба awg-helper (запускается через pkexec) и её окружение
+  - from: helper/bin/linux/awg-helper
+    to: helper/awg-helper
+  - from: resources/icons/
+    to: icons/
+    filter:
+      - "*.png"
+  - from: LICENSE
+    to: licenses/LICENSE.txt
+  - from: THIRD_PARTY_NOTICES.md
+    to: licenses/THIRD_PARTY_NOTICES.md
+extraFiles:
+  # Папка конфигураций рядом с исполняемым файлом (в установленной версии)
+  - from: configs/README.txt
+    to: configs/README.txt
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+    - target: portable
+      arch: [x64]
+  icon: build/icon.png
+  requestedExecutionLevel: asInvoker
+  artifactName: AmneziaWGClient-${version}-${arch}.${ext}
+nsis:
+  oneClick: false
+  perMachine: true
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  deleteAppDataOnUninstall: false
+  language: "1049"
+  include: build/installer.nsh
+  artifactName: AmneziaWGClient-Setup-${version}-${arch}.${ext}
+portable:
+  artifactName: AmneziaWGClient-${version}-portable-${arch}.${ext}
+linux:
+  target:
+    - target: AppImage
+      arch: [x64]
+  category: Network
+  icon: build/icon.png
+  executableName: AmneziaWG-Client
+  artifactName: AmneziaWGClient-${version}-${arch}.${ext}

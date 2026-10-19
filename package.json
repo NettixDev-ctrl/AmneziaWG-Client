@@ -1,0 +1,47 @@
+{
+  "name": "privata-awg-client",
+  "productName": "AmneziaWG Client",
+  "version": "0.1.0",
+  "description": "Свободный клиент AmneziaWG 3.x для Windows с автообнаружением конфигураций и раздельным туннелированием по приложениям",
+  "author": "Privata AWG Client contributors",
+  "license": "MIT",
+  "private": true,
+  "main": "out/main/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "ui:preview": "vite --config vite.preview.config.ts",
+    "typecheck": "tsc -p tsconfig.node.json --noEmit && tsc -p tsconfig.web.json --noEmit",
+    "test": "vitest run",
+    "helper:build": "node scripts/build-helper.mjs",
+    "helper:test": "node scripts/test-helper.mjs",
+    "native:fetch": "node scripts/fetch-native.mjs",
+    "dist": "npm run build && npm run helper:build && npm run native:fetch && electron-builder --win --x64",
+    "start": "electron-vite build && ./bin/AmneziaWG-Client ."
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "d3-geo": "^3.1.1",
+    "electron": "^44.9.0",
+    "electron-builder": "^26.15.3",
+    "electron-vite": "^6.0.0",
+    "topojson-client": "^3.1.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.5",
+    "world-atlas": "^2.0.2"
+  },
+  "dependencies": {
+    "flag-icons": "^7.6.0",
+    "i18n-iso-countries": "^7.14.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "allowScripts": {
+    "electron-winstaller": false
+  }
+}

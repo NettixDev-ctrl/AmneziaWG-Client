@@ -1,0 +1,10 @@
+*.AppImage
+bin/
+configs/*.conf
+dist/
+.env
+helper/bin/
+*.log
+node_modules/
+out/
+resources/native/
